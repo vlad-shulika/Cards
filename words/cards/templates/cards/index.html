@@ -8,11 +8,20 @@
 {% if cards %}
     <ul>
     {% for card in cards %}
-        <li><a href="{%  url 'cards:detail' card.id %}"> {{ card.phrase }} </a> </li>
+        <li> {{ forloop.counter }} <a href="{%  url 'cards:detail' card.id %}"> {{ card.phrase }} </a> </li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No cards are available</p>
-{% endif %} 
+{% endif %}
+<form action="{% url 'cards:new_card' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="phrase" value="">
+    {% for language in languages %}
+        <input type="radio" name="language" id="language{{ forloop.counter }}" value="{{ language.id }}">
+        <label>{{ language.name }}</label>
+    {% endfor %}
+<input type="submit" value="New card"/>
+</form>
 </body>
 </html>

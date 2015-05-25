@@ -6,5 +6,6 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^(?P<card_id>[0-9]+)/$', views.detail, name='detail'),
+    url(r'^new_card/$', views.new_card, name='new_card'),
     url(r'^(?P<card_id>[0-9]+)/translations/(?P<language>[a-zA-Z]+)/$', views.translation, name='translation'),
 ]
