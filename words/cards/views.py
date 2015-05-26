@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import RequestContext
+from django.views import generic
 from .models import *
 # Create your views here.
 
@@ -38,3 +39,24 @@ def new_card(request):
     card.save()
 
     return HttpResponseRedirect(reverse('cards:detail', args=(card.id,)))
+
+
+class DetailView(generic.DetailView):
+    model = Card
+    template_name = 'cards/card.html'
+
+
+class TranslationListView(generic.ListView):
+    template_name = 'cards/index.html'
+    context_object_name = 'translations'
+
+    def get_queryset(self):
+        return TranslationList.objects.all()
+
+
+class IndexView(generic.ListView):
+    template_name = 'cards/index.html'
+    context_object_name = 'cards'
+
+    def get_queryset(self):
+        return Card.objects.all()
