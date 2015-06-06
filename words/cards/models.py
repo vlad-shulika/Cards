@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 # Create your models here.
+import operator
+
 
 @python_2_unicode_compatible
 class Language(models.Model):
@@ -10,29 +12,29 @@ class Language(models.Model):
         return "%s" % self.name
 
 @python_2_unicode_compatible
-class Card(models.Model):
+class Phrase(models.Model):
 
-    phrase = models.CharField(max_length=200)
     language = models.ForeignKey(Language)
+    phrase = models.CharField(max_length=200)
 
     def __str__(self):
         return "Phrase: %s, Language: %s" % (self.phrase, self.language)
 
-class TranslationList(models.Model):
+class TranslateCard(models.Model):
 
-    card = models.ForeignKey(Card, related_name="original")
-    translations = models.ManyToManyField(Card)
-
-    @staticmethod
-    def find_all_translation_by_language(card, language):
-        translation_list = TranslationList.objects.filter(card=card)
-        if len(translation_list) > 1:
-            raise TranslationList.MultipleObjectsReturned()
-        if len(translation_list) == 0:
-            raise TranslationList.DoesNotExist()
-
-        cards = translation_list[0].translations.filter(language=language)
-        return cards
+    translations = models.ManyToManyField(Phrase)
 
     def __str__(self):
-        return "Card <<%s>>" % (self.card)
+        return "Card <<%s>>\n" % (list(self.translations.all()))
+
+    @staticmethod
+    def find_all_translation_by_language(phrase, language):
+        translation_list = phrase.translatecard_set.all()
+        all_cards = set(
+            reduce(
+                operator.add,
+                [list(translation_card.translations.filter(language=language)) for translation_card in translation_list]
+            )
+        )
+        cards = list(all_cards)
+        return cards

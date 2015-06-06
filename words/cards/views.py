@@ -7,7 +7,7 @@ from .models import *
 # Create your views here.
 
 def index(request):
-    cards = Card.objects.all()
+    cards = Phrase.objects.all()
     languages = Language.objects.all()
     context = RequestContext(request, {
         'cards': cards,
@@ -16,7 +16,7 @@ def index(request):
     return render(request, 'cards/index.html', context)
 
 def detail(request, card_id):
-    card = get_object_or_404(Card, pk=card_id)
+    card = get_object_or_404(Phrase, pk=card_id)
 
     context = RequestContext(request, {
         'card' : card
@@ -32,7 +32,7 @@ def new_card(request):
     phrase = request.POST['phrase']
     language_object = get_object_or_404(Language, pk=language)
     try:
-        card = Card(phrase=phrase, language=language_object)
+        card = Phrase(phrase=phrase, language=language_object)
     except:
         raise Http404("Can't create card object")
 
@@ -42,7 +42,7 @@ def new_card(request):
 
 
 class DetailView(generic.DetailView):
-    model = Card
+    model = Phrase
     template_name = 'cards/card.html'
 
 
@@ -51,7 +51,7 @@ class TranslationListView(generic.ListView):
     context_object_name = 'translations'
 
     def get_queryset(self):
-        return TranslationList.objects.all()
+        return TranslateCard.objects.all()
 
 
 class IndexView(generic.ListView):
@@ -59,4 +59,4 @@ class IndexView(generic.ListView):
     context_object_name = 'cards'
 
     def get_queryset(self):
-        return Card.objects.all()
+        return Phrase.objects.all()
