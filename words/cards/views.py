@@ -38,7 +38,19 @@ def new_card(request):
 
     card.save()
 
-    return HttpResponseRedirect(reverse('cards:detail', args=(card.id,)))
+    return HttpResponseRedirect(reverse('cards:index'))
+
+def add_new_language(request):
+    language_name = request.POST['language_name']
+
+    # check if such language already exists
+    languages = Language.objects.filter(name=language_name)
+    if len(languages):
+        raise Http404("Can't create language object. Such language already exists!")
+
+    # create new one
+    Language.objects.create(name=language_name)
+    return HttpResponseRedirect(reverse('cards:index'))
 
 
 class DetailView(generic.DetailView):
@@ -52,11 +64,3 @@ class TranslationListView(generic.ListView):
 
     def get_queryset(self):
         return TranslateCard.objects.all()
-
-
-class IndexView(generic.ListView):
-    template_name = 'cards/index.html'
-    context_object_name = 'cards'
-
-    def get_queryset(self):
-        return Phrase.objects.all()

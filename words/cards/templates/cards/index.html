@@ -14,6 +14,15 @@
 {% else %}
     <p>No cards are available</p>
 {% endif %}
+
+<p>Add new language</p>
+<form action="{% url 'cards:new_language' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="language_name" value="">
+<input type="submit" value="New language"/>
+</form>
+
+<p>Add new phrase</p>
 <form action="{% url 'cards:new_card' %}" method="post">
     {% csrf_token %}
     <input type="text" name="phrase" value="">
@@ -21,7 +30,7 @@
         <input type="radio" name="language" id="language{{ forloop.counter }}" value="{{ language.id }}">
         <label>{{ language.name }}</label>
     {% endfor %}
-<input type="submit" value="New card"/>
+<input type="submit" value="New phrase"/>
 </form>
 </body>
 </html>
