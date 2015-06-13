@@ -21,5 +21,4 @@ def set_rest_url(url):
 
     with open(full_path, mode='w') as f:
         f.write( json.dumps(model))
-        global REST_URL_INIT
         REST_URL_INIT = True
