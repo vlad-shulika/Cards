@@ -1,0 +1,7 @@
+[
+{"id" : 1, "phrase" : "Some phrase 1", "language" : 1},
+{"id" : 2, "phrase" : "Some phrase 1", "language" : 2},
+{"id" : 3, "phrase" : "Some phrase 1", "language" : 3},
+{"id" : 4, "phrase" : "Some phrase 2", "language" : 1},
+{"id" : 5, "phrase" : "Some phrase 3", "language" : 1}
+]

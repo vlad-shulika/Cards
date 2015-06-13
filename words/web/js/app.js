@@ -12,8 +12,12 @@ var model = {
 var cardsApp = angular.module("cardsApp", []);
 
 cardsApp.run(function($http){
-    $http.get("js/model.json").success(function(data){
-        model.items = data;
+    $http.get("stubModels/languages.json").success(function(data){
+        model.configuredLanguages = data;
+    });
+
+    $http.get("stubModels/phrases.json").success(function(data){
+        model.phrases = data;
     });
 
     $http.get("js/rest.json").success(function(data){
@@ -51,8 +55,13 @@ cardsApp.controller("wordsCtrl", function ($scope) {
             return $scope.incompleteCount() < 3 ? "label-success" : "label-warning";
         }
 
-        $scope.addNewItem = function(actionText) {
-            $scope.userModel.items.push({ action : actionText, done: false});
+        $scope.addNewLanguageItem = function(languageName) {
+            last_index = $scope.userModel.configuredLanguages.length;
+            $scope.userModel.configuredLanguages.push({id : last_index + 1, name : languageName});
         }
 
+        $scope.addNewPhraseItem = function(phrase, languageModel) {
+            last_index = $scope.userModel.phrases.length;
+            $scope.userModel.phrases.push({id : last_index + 1, phrase : phrase, language : languageModel.id});
+        }
 });

@@ -2,3 +2,5 @@
 env/
 *.sqlite3
 *.pyc
+
+words/web/js/rest.json
