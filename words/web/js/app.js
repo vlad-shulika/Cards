@@ -1,15 +1,24 @@
 /**
  * Created by z4i on 13/06/15.
  */
+var globalConfig = {
+    init : false
+};
+
 var model = {
-        user: "Andrii"
-        };
+    user: "Andrii"
+};
 
 var cardsApp = angular.module("cardsApp", []);
 
 cardsApp.run(function($http){
     $http.get("js/model.json").success(function(data){
         model.items = data;
+    });
+
+    $http.get("js/rest.json").success(function(data){
+        globalConfig.rest_url = data.rest_url;
+        globalConfig.init = true;
     });
 });
 
@@ -28,6 +37,7 @@ cardsApp.filter("checkedItems", function() {
 cardsApp.controller("wordsCtrl", function ($scope) {
 
         $scope.userModel = model;
+        $scope.globalConfig = globalConfig;
 
         $scope.incompleteCount = function () {
             var count = 0;
