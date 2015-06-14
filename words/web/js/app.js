@@ -68,4 +68,47 @@ cardsApp.controller("wordsCtrl", function ($scope) {
             last_index = $scope.userModel.phrases.length;
             $scope.userModel.phrases.push({id : last_index + 1, phrase : phrase, language : languageModel.id});
         }
+
+        $scope.searchForPhrase = function(card_id, phraseToSearch) {
+            if (phraseToSearch) {
+                phrase = {id : 1, phrase : phraseToSearch, language_id : 1};
+                $scope.userModel.cards[card_id].searchResult = [phrase];    
+            }
+            else {
+                $scope.userModel.cards[card_id].searchResult = [];
+            }
+        }
+
+        $scope.findCardById = function(card_id) {
+            for (card in $scope.userModel.cards) {
+                if ($scope.userModel.cards[card].id === card_id) {
+                    return $scope.userModel.cards[card];
+                }
+            }
+            return null;
+        }
+
+        $scope.removePhraseFromCardById = function(phrases, phrase_id) {
+            for (id in phrases) {
+                if (phrases[id].id === phrase_id){
+                    phrases.splice(id, 1);
+                    return;
+                }
+            }
+        }
+
+        $scope.addItemToCard = function(card_id,  phrase_item, add_to_card_flag){
+            card = $scope.findCardById(card_id);
+            if (card == null) {
+                return;
+            }
+
+            if (add_to_card_flag) {
+                card.phrases.push(phrase_item);
+            } 
+            else {
+                $scope.removePhraseFromCardById(card.phrases, phrase_item.id);
+            }
+        }
+
 });

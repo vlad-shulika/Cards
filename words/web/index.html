@@ -112,7 +112,7 @@
                                            <td>
                                                <div class="checkbox">
                                                    <label>
-                                                       <input type="checkbox" value="">
+                                                       <input type="checkbox" value="" ng-model="removeFromCard" ng-change="addItemToCard(item.id,  phrase, !removeFromCard)">
                                                    </label>
                                                </div>
                                             </td>
@@ -122,10 +122,10 @@
                             </div>
                             
                             <div class="panel">
-                                <input type="search" name="searchPhrase" id="inputSearchPhrase" class="form-control" placeholder="Search phrase to add" value="" required="required" title="Search phrase">
+                                <input type="search" name="searchPhrase" id="inputSearchPhrase" class="form-control" placeholder="Search phrase to add" value="" required="required" title="Search phrase" ng-model="searchPhraseRequest" ng-change="searchForPhrase($index, searchPhraseRequest)">
                             </div>
                             
-                            <table class="table table-striped table-hover" ng-if="item % 2">
+                            <table class="table table-striped table-hover" ng-if="item.searchResult.length">
                                 <thead>
                                     <tr>
                                         <th>Phrase</th>
@@ -134,12 +134,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="phrase_item in [1,2,3,4]">
-                                        <td>A {{phrase_item}}</td>
-                                        <td>A</td>
+                                    <tr ng-repeat="phrase_item in item.searchResult">
+                                        <td>{{phrase_item.phrase}}</td>
+                                        <td>{{phrase_item.language_id}}</td>
                                         <td><div class="checkbox">
                                             <label>
-                                                <input type="checkbox" value="">
+                                                <input type="checkbox" ng-model="addToCard" ng-change="addItemToCard(item.id,  phrase_item, addToCard)">
                                             </label>
                                         </div></td>
                                     </tr>
