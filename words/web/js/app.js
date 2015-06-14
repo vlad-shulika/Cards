@@ -20,6 +20,10 @@ cardsApp.run(function($http){
         model.phrases = data;
     });
 
+    $http.get("stubModels/cards.json").success(function(data){
+        model.cards = data;
+    });
+
     $http.get("js/rest.json").success(function(data){
         globalConfig.rest_url = data.rest_url;
         globalConfig.init = true;
