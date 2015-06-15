@@ -82,7 +82,7 @@
                            <tbody>
                                <tr ng-repeat="item in userModel.phrases">
                                    <td>{{item.phrase}}</td>
-                                   <td>{{item.language}}</td>
+                                   <td>{{item.language.name}}</td>
                                </tr>
                            </tbody>
                        </table>
@@ -108,11 +108,11 @@
                                    <tbody>
                                        <tr ng-repeat="phrase in item.phrases">
                                            <td>{{phrase.phrase}}</td>
-                                           <td>{{phrase.language_id}}</td>
+                                           <td>{{phrase.language.name}}</td>
                                            <td>
                                                <div class="checkbox">
                                                    <label>
-                                                       <input type="checkbox" value="" ng-model="removeFromCard" ng-change="addItemToCard(item.id,  phrase, !removeFromCard)">
+                                                       <input type="checkbox" value="" ng-model="removeFromCard" ng-change="removePhraseFromCard(item.id,  phrase, removeFromCard)">
                                                    </label>
                                                </div>
                                             </td>
@@ -136,10 +136,10 @@
                                 <tbody>
                                     <tr ng-repeat="phrase_item in item.searchResult">
                                         <td>{{phrase_item.phrase}}</td>
-                                        <td>{{phrase_item.language_id}}</td>
+                                        <td>{{phrase_item.language.name}}</td>
                                         <td><div class="checkbox">
                                             <label>
-                                                <input type="checkbox" ng-model="addToCard" ng-change="addItemToCard(item.id,  phrase_item, addToCard)">
+                                                <input type="checkbox" ng-model="addToCard" ng-change="addPhraseToCard(item.id,  phrase_item, addToCard)">
                                             </label>
                                         </div></td>
                                     </tr>
