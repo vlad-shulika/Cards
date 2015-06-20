@@ -2,11 +2,14 @@
  * Created by z4i on 13/06/15.
  */
 var globalConfig = {
-    init : false
+    init : false,
+    downloadStatus : 0, // each successfully downloaded object increases counter for 1
+    rawData : {}
 };
 
 var model = {
-    user: "Andrii"
+    user: "Andrii",
+    searchResults : {}
 };
 
 var cardsApp = angular.module("cardsApp", []);
@@ -18,7 +21,16 @@ cardsApp.run(function($http){
 
         // Download models
         $http.get("stubModels/languages.json").success(function(data){
-            model.configuredLanguages = data;
+            _configuredLanguages = [];
+
+            data.forEach(function(languageObject){
+                var _language = new Language();
+                _language.configure(languageObject);
+                _configuredLanguages.push(_language);
+            });
+            
+            model.configuredLanguages = _configuredLanguages;
+
 
             // Download phrases after languages
             $http.get("stubModels/phrases.json").success(function(data){
@@ -26,34 +38,22 @@ cardsApp.run(function($http){
                 phrasesWithLanguage = [];
 
                 data.forEach(function(phrase){
-                    modifiedPhrase = phrase;
-                    for (mLanguage of model.configuredLanguages) {
-                        if (mLanguage.id == phrase.language){
-                            modifiedPhrase.language = mLanguage;
-                            break;
-                        }
-                    }
-                    phrasesWithLanguage.push(modifiedPhrase);
+                    var _phrase = new Phrase();
+                    _phrase.configure(phrase, model.configuredLanguages);
+                    phrasesWithLanguage.push(_phrase);
                 });
+
                 model.phrases = phrasesWithLanguage;
                 // Download cards after phrases
                 $http.get("stubModels/cards.json").success(function(data){
+
                     convertedData = [];
                     // convert ids to model
 
                     data.forEach(function(item){
-                        //{"id" : 1, "phrases" : [{"phrase_id": 1}, {"phrase_id" : 3}]}
-                        itemWithPhrases = {id: item.id, phrases: []};
-                        item.phrases.forEach(function(phrase){
-                            for (mPhrase of model.phrases){
-                                if (mPhrase.id == phrase.phrase_id) {
-                                    itemWithPhrases.phrases.push(mPhrase);
-                                    return;
-                                }
-                            }
-                        });
-
-                        convertedData.push(itemWithPhrases);
+                        var _card = new Card();
+                        _card.configure(item, phrasesWithLanguage);
+                        convertedData.push(_card);
                     });
                     model.cards = convertedData;
                 });
@@ -80,18 +80,6 @@ cardsApp.controller("wordsCtrl", function ($scope) {
         $scope.userModel = model;
         $scope.globalConfig = globalConfig;
 
-        $scope.incompleteCount = function () {
-            var count = 0;
-            angular.forEach($scope.userModel.items, function (item) {
-                if (!item.done) { count++ }
-            });
-            return count;
-        }
-
-        $scope.warningLevel = function () {
-            return $scope.incompleteCount() < 3 ? "label-success" : "label-warning";
-        }
-
         $scope.addNewLanguageItem = function(languageName) {
             last_index = $scope.userModel.configuredLanguages.length;
             $scope.userModel.configuredLanguages.push({id : last_index + 1, name : languageName});
@@ -113,52 +101,16 @@ cardsApp.controller("wordsCtrl", function ($scope) {
                         searchResults.push(phrase);
                     };
                 }
-                $scope.userModel.cards[card_id].searchResult = searchResults;
+                $scope.userModel.searchResults[card_id] = searchResults;
             }
             else {
-                $scope.userModel.cards[card_id].searchResult = [];
+                $scope.userModel.searchResults[card_id] = [];
             }
         }
 
-        $scope.findCardById = function(card_id) {
-            for (card in $scope.userModel.cards) {
-                if ($scope.userModel.cards[card].id === card_id) {
-                    return $scope.userModel.cards[card];
-                }
-            }
-            return null;
+        $scope.removeFromSearchResults = function(card_id, phrase){
+            _card = $scope.userModel.cards[card_id];
+            _card.removePhraseFromCardById($scope.userModel.searchResults[card_id], phrase.id);
         }
 
-        $scope.removePhraseFromCardById = function(phrases, phrase_id) {
-            for (id in phrases) {
-                if (phrases[id].id === phrase_id){
-                    phrases.splice(id, 1);
-                    return;
-                }
-            }
-        }
-
-        $scope.addPhraseToCard = function(card_id,  phrase_item, add_to_card_flag){
-            card = $scope.findCardById(card_id);
-            if (card == null) {
-                return;
-            }
-
-            if (add_to_card_flag) {
-                card.phrases.push(phrase_item);
-                // remove item from search
-                $scope.removePhraseFromCardById(card.searchResult, phrase_item.id);
-            }
-        }
-
-        $scope.removePhraseFromCard = function(card_id,  phrase_item, remove_from_card_flag){
-            card = $scope.findCardById(card_id);
-            if (card == null) {
-                return;
-            }
-
-            if (remove_from_card_flag) {
-                $scope.removePhraseFromCardById(card.phrases, phrase_item.id);
-            }
-        }
 });
