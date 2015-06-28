@@ -5,25 +5,25 @@
 var cardsApp = angular.module("cardsApp");
 
 cardsApp.run(['$http', 'DataConfiguratorService', function($http, dcService){
-    $http.get("js/rest.json").success(function(data){
+    //$http.get("js/rest.json").success(function(data){
         /*globalConfig.rest_url = data.rest_url;
         globalConfig.init = true;*/
 
         // Download models
-        $http.get("stubModels/languages.json").success(function(data){
+        $http.get("assets/js/stubModels/languages.json").success(function(data){
             dcService.downloadCallback(0, data);
         });
 
         // Download phrases after languages
-        $http.get("stubModels/phrases.json").success(function(data){
+        $http.get("assets/js/stubModels/phrases.json").success(function(data){
             dcService.downloadCallback(1, data);
         });
         
         // Download cards after phrases
-        $http.get("stubModels/cards.json").success(function(data){
+        $http.get("assets/js/stubModels/cards.json").success(function(data){
             dcService.downloadCallback(2, data);
         });
-    });
+    //});
     
 }]);
 
