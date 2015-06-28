@@ -7,6 +7,7 @@
     <script src="app/shared/models/card.js"></script>
     <script src="app/shared/models/phrase.js"></script>
     <script src="app/shared/models/language.js"></script>
+    <script src="app/cards-app.js"></script>
     <script src="app/shared/data-configurator-service.js"></script>
     <script src="app/components/user-cabinet/user-cabinet-controller.js"></script>
     <link href="assets/libs/bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet" />
@@ -14,7 +15,7 @@
     <script src="assets/libs/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
     <title>Cards</title>
 </head>
-<body ng-controller="wordsCtrl">
+<body ng-controller="UserCabinetController">
   <div ng-if="userModel.completeData">
     <div role="tabpanel">
         <!-- Nav tabs -->

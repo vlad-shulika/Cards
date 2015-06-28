@@ -69,7 +69,7 @@ DataConfigurator.prototype.downloadCallback = function(dataType, rawData) {
     }
 };
 
-var cardsApp = angular.module("cardsApp", []);
+var cardsApp = angular.module("cardsApp");
 cardsApp.factory('DataConfiguratorService', function(){
     var _dataConfigurator = new DataConfigurator();
 
