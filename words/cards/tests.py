@@ -2,7 +2,6 @@
 import random
 
 from django.test import TestCase
-import docstring as docstring
 from .models import *
 
 class CardTests(TestCase):
