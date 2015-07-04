@@ -4,3 +4,4 @@ env/
 *.pyc
 .ropeproject/
 words/web/js/rest.json
+*.swp
