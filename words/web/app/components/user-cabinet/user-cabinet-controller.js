@@ -33,6 +33,10 @@ cardsApp.controller("UserCabinetController", ['$scope', 'DataConfiguratorService
             else {
                 $scope.dataService.searchResults[card_id] = [];
             }
+            if ($scope.dataService.searchResults[card_id].length === 0) {
+                //$scope.dataService.searchPhraseRequest[card_id] = "";
+            }
+
         }
 
         $scope.removeFromSearchResults = function(card_id, phrase){

@@ -12,6 +12,7 @@ function DataConfigurator () {
     };
     this.searchResults = [];
     this.userName = 'Andrii';
+    this.searchPhraseRequest = [];
 }
 
 DataConfigurator.prototype._parseLanguages = function(rawData) {
