@@ -11,7 +11,7 @@ def set_rest_url(url):
         return
 
     current_path = os.path.dirname(os.path.realpath(__file__))
-    path_of_web = current_path + '/../web/js'
+    path_of_web = current_path
     web_configuration_json_file = "rest.json"
     full_path = path_of_web + "/" + web_configuration_json_file
 

@@ -2,5 +2,5 @@
 env/
 *.sqlite3
 *.pyc
-
+.ropeproject/
 words/web/js/rest.json

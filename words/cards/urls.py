@@ -1,12 +1,14 @@
 __author__ = 'z4i'
 
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'language', views.LanguageViewSet)
+router.register(r'phrase', views.PhraseViewSet)
+router.register(r'translation', views.TranslateCardViewSet)
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='detail'),
-    url(r'^(?P<pk>[0-9]+)/translations/(?P<language>[a-zA-Z]+)/$', views.TranslationListView.as_view(), name='translation'),
-    url(r'^new_card/$', views.new_card, name='new_card'),
-    url(r'^new_language/$', views.add_new_language, name='new_language'),
+    url(r'^', include(router.urls)),
 ]
