@@ -1,17 +1,14 @@
 from rest_framework import serializers
 from cards.models import Language, Phrase, TranslateCard
 
-class LanguageSerializer(serializers.ModelSerializer):
+class LanguageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Language
-        #fields = ('url', 'id', 'name', )
 
-class PhraseSerializer(serializers.ModelSerializer):
+class PhraseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Phrase
-        #fields = ('url', 'language', 'phrase')
 
-class TranslateCardSerializer(serializers.ModelSerializer):
+class TranslateCardSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TranslateCard
-        #fields = ('url', 'translations')

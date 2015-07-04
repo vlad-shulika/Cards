@@ -6,6 +6,7 @@ from rest_framework import viewsets
 class LanguageViewSet(viewsets.ModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
+    #lookup_field = 'id'
 
 class PhraseViewSet(viewsets.ModelViewSet):
     queryset = Phrase.objects.all()
