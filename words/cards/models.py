@@ -30,6 +30,10 @@ class TranslateCard(models.Model):
     @staticmethod
     def find_all_translation_by_language(phrase, language):
         translation_list = phrase.translatecard_set.all()
+
+        if not len(translation_list):
+            return []
+
         all_cards = set(
             reduce(
                 operator.add,
