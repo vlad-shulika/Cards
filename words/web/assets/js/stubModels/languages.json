@@ -1,5 +1,14 @@
 [
-{"id" : 1, "name" : "Russian" },
-{"id" : 2, "name" : "English" },
-{"id" : 3, "name" : "Czech" }
+    {
+        "id": 1,
+        "name": "Russian"
+    },
+    {
+        "id": 2,
+        "name": "English"
+    },
+    {
+        "id": 3,
+        "name": "Czech"
+    }
 ]
