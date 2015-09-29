@@ -4,14 +4,13 @@ from django.utils.encoding import python_2_unicode_compatible
 import operator
 
 
-#@python_2_unicode_compatible
 class Language(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return "%s" % self.name
 
-#@python_2_unicode_compatible
+
 class Phrase(models.Model):
 
     language = models.ForeignKey(Language)
@@ -19,6 +18,7 @@ class Phrase(models.Model):
 
     def __str__(self):
         return "Phrase: %s, Language: %s |" % (self.phrase, self.language.name)
+
 
 class TranslateCard(models.Model):
 

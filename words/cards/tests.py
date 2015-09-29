@@ -4,6 +4,7 @@ import random
 from django.test import TestCase
 from .models import *
 
+
 class CardTests(TestCase):
     def generate_random_language(self):
         sequence = [chr(i+65) for i in range(26)]
