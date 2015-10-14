@@ -7,21 +7,18 @@ describe("RestTests", function() {
         connection.connect();
     });
 
-    it("should be able to receive languages", function() {
-        var callback = jasmine.createSpy();
-        connection.download(Connection.OBJECT_TYPES.LANGUAGE, {}, callback);
-        waitsFor(function() {
-            return callback.callCount > 0;
-        }, "Download timed out", 5000);
-
-        runs(function () {
-            expect(callback).toHaveBeenCalled();
+    it("should be able to receive languages", function(done) {
+        connection.download(Connection.OBJECT_TYPES.LANGUAGE, {}, function(error, data) {
+            expect(error).toEqual(0);
+            expect(data.length).not.toEqual(0);
+            done();
         });
     });
 
-    it("should not be able to receive object due unsupported type", function() {
+    it("should not be able to receive object due unsupported type", function(done) {
         connection.download(-1, {}, function(error, data) {
             expect(error).toEqual(Connection.ERRORS.TYPE_IS_NOT_SUPPORTED);
+            done();
         });
     });
 });

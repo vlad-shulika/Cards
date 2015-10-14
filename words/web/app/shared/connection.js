@@ -42,8 +42,6 @@ Connection.prototype.download = function(type, params, callback) {
         return;
     }
     
-    // add real http call here
-    
     var _url = Connection.OBJECT_TYPES._urls[_object_name];
     
     this._download_data_by_url(_url, callback);
@@ -52,7 +50,7 @@ Connection.prototype.download = function(type, params, callback) {
 Connection.prototype._download_data_by_url = function(url, callback) {
     $.get(url, {})
         .done(function(loadedData) {
-            callback(Connection.ERRORS.NO_ERROR, {data: loadedData});
+            callback(Connection.ERRORS.NO_ERROR, JSON.parse(loadedData));
         })
         .fail(function(){
             callback(Connection.ERRORS.CANNOT_RECEIVE_DATA, {});

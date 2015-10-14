@@ -2,20 +2,26 @@
 var cardsApp = angular.module("cardsApp", []); // Declaration of cardsApp module
 
 cardsApp.run(['$http', 'DataConfiguratorService', function($http, dcService){
-        // Download models
-        $http.get("assets/js/stubModels/languages.json").success(function(data){
-            dcService.downloadCallback(0, data);
-        });
+    var connectionManager = new Connection();
+    connectionManager.setHost("http://localhost:8080/");
 
-        // Download phrases after languages
-        $http.get("assets/js/stubModels/phrases.json").success(function(data){
+    connectionManager.download(Connection.OBJECT_TYPES.LANGUAGE, {}, function(error, data) {
+        if (error === 0) {
+            dcService.downloadCallback(0, data);
+        }
+    });
+
+    connectionManager.download(Connection.OBJECT_TYPES.PHRASE, {}, function(error, data) {
+        if (error === 0) {
             dcService.downloadCallback(1, data);
-        });
-        
-        // Download cards after phrases
-        $http.get("assets/js/stubModels/cards.json").success(function(data){
+        }
+    });
+
+    connectionManager.download(Connection.OBJECT_TYPES.CARD, {}, function(error, data) {
+        if (error === 0) {
             dcService.downloadCallback(2, data);
-        });
+        }
+    });
 }]);
 
 cardsApp.filter("checkedItems", function() {
