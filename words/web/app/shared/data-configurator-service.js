@@ -51,7 +51,7 @@ DataConfigurator.prototype._parseCards = function(rawData, parsedPhrases) {
     return _parsedCards;
 };
 
-DataConfigurator.prototype.downloadCallback = function(dataType, rawData, done_callback) {
+DataConfigurator.prototype.downloadCallback = function(dataType, rawData) {
     if (dataType === 0) { // 0 - languages
         this.loadedData.languages = rawData.results;
     } else if (dataType === 1) { // 1 - phrases
@@ -67,9 +67,6 @@ DataConfigurator.prototype.downloadCallback = function(dataType, rawData, done_c
         this.parsedData.phrases = this._parsePhrases(this.loadedData.phrases, this.parsedData.languages);
         this.parsedData.cards = this._parseCards(this.loadedData.cards, this.parsedData.phrases);
         this.parsedData.completeData = true;
-        if (done_callback) {
-            done_callback();
-        }
     }
 };
 
