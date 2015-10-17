@@ -3,7 +3,7 @@ describe("RestTests", function() {
 
     beforeEach(function() {
         connection = new Connection();
-        connection.setHost("http://localhost:8001");
+        connection.setHost("assets/js/stubModels/");
         connection.connect();
     });
 

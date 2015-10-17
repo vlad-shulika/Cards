@@ -8,6 +8,7 @@ How to run project
 * packages:
   * django;
   * django-rest-framework;
+  * django-cors-headers;
 
 ### How to run tests
 

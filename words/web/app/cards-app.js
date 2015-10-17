@@ -3,6 +3,7 @@ var cardsApp = angular.module("cardsApp", []); // Declaration of cardsApp module
 
 cardsApp.run(['$http', 'DataConfiguratorService', function($http, dcService){
     var connectionManager = new Connection();
+
     // connectionManager.setHost("assets/js/stubModels/");
     connectionManager.setHost("http://127.0.0.1:8000/");
 

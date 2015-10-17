@@ -5,19 +5,19 @@ function Card() {
 // input params 
 // {"id" : 1, "phrases" : [{"phrase_id": 1}, {"phrase_id" : 3}]}
 Card.prototype.configure = function(raw_data, phrases) {
-    this.id = raw_data.id;
+    this.id = raw_data.url;
     this.phrases = [];
 
-    this.phrases = this.prepare_phrases(raw_data.phrases, phrases);
+    this.phrases = this.prepare_phrases(raw_data.translations, phrases);
     
 };
 
 Card.prototype.prepare_phrases = function(raw_phrases, parsed_phrases) {
     _output_phrases = [];
 
-    raw_phrases.forEach(function(phrase){
+    raw_phrases.forEach(function(url){
         for (mPhrase of parsed_phrases){
-            if (mPhrase.id == phrase.phrase_id) {
+            if (mPhrase.id == url) {
                 _output_phrases.push(mPhrase);
                 break;
             }

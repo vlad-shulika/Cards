@@ -4,7 +4,7 @@ function Phrase(){
 
 //{"id" : 1, "phrase" : "Some phrase 1", "language" : 1}
 Phrase.prototype.configure = function(raw_data, languages) {
-    this.id = raw_data.id;
+    this.id = raw_data.url;
     this.phrase = raw_data.phrase;
     this.language = this.prepare_language(raw_data.language, languages);
 };

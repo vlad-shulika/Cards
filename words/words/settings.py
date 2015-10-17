@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'cards',
 )
@@ -50,6 +51,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 )
 
 ROOT_URLCONF = 'words.urls'
@@ -107,3 +110,6 @@ STATIC_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '../static
 REST_FRAMEWORK = {
         'PAGE_SIZE': 10
 }
+
+# Set to False and add CORS_ORIGIN_WHITELIST = ('some ulr')
+CORS_ORIGIN_ALLOW_ALL = True

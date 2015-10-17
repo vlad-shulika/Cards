@@ -51,7 +51,8 @@ Connection.prototype.download = function(type, params, callback) {
 Connection.prototype._download_data_by_url = function(url, callback) {
     $.get(url, {})
         .done(function(loadedData) {
-            callback(Connection.ERRORS.NO_ERROR, JSON.parse(loadedData));
+            // callback(Connection.ERRORS.NO_ERROR, JSON.parse(loadedData));
+            callback(Connection.ERRORS.NO_ERROR, loadedData);
         })
         .fail(function(){
             callback(Connection.ERRORS.CANNOT_RECEIVE_DATA, {});
