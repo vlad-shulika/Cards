@@ -7,6 +7,7 @@
     <script src="app/shared/models/card.js"></script>
     <script src="app/shared/models/phrase.js"></script>
     <script src="app/shared/models/language.js"></script>
+    <script src="app/shared/connection.js"></script>
     <script src="app/cards-app.js"></script>
     <script src="app/shared/data-configurator-service.js"></script>
     <script src="app/components/user-cabinet/user-cabinet-controller.js"></script>
@@ -17,7 +18,7 @@
     <title>Cards</title>
 </head>
 <body ng-controller="UserCabinetController">
-  <div ng-if="userModel.completeData">
+    <!-- <div ng-if="userModel.completeData"> -->
     <div role="tabpanel">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -37,7 +38,7 @@
             <div role="tabpanel" class="tab-pane active" id="home-tab">
 
                 <div class="page-header">
-                    <h1>{{dataService.userName}}'s configured languages
+                    <h1>{{dataConfigurator.userName}}'s configured languages
                         <span class="label label-default" ng-class="warningLevel()"
                               ng-hide="incompleteCount() == 0">{{incompleteCount()}}</span></h1>
                 </div>
@@ -64,7 +65,7 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="tab-1">
                 <div class="page-header">
-                  <h1>{{ dataService.userName }}'s <small>configured phrases</small></h1>
+                  <h1>{{ dataConfigurator.userName }}'s <small>configured phrases</small></h1>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -105,5 +106,5 @@
             </div>
         </div>
     </div>
-  </div>
+    <!-- </div> -->
 </body></html>

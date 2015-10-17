@@ -53,11 +53,11 @@ DataConfigurator.prototype._parseCards = function(rawData, parsedPhrases) {
 
 DataConfigurator.prototype.downloadCallback = function(dataType, rawData) {
     if (dataType === 0) { // 0 - languages
-        this.loadedData.languages = rawData;
+        this.loadedData.languages = rawData.results;
     } else if (dataType === 1) { // 1 - phrases
-        this.loadedData.phrases = rawData;
+        this.loadedData.phrases = rawData.results;
     } else if (dataType === 2) { // 2 - cards
-        this.loadedData.cards = rawData;
+        this.loadedData.cards = rawData.results;
     }
 
     if (this.loadedData.languages !== null &&

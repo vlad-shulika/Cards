@@ -28,10 +28,10 @@
     </div>
     
     <div class="panel">
-        <input type="search" name="searchPhrase" id="inputSearchPhrase" ng-class="{'form-control' : true,  'alert-warning' : dataService.searchResults[$index].length , 'alert-success' : !dataService.searchResults[$index].length}" placeholder="Search phrase to add" value="" required="required" title="Search phrase" ng-model="dataService.searchPhraseRequest[$index]" ng-change="searchForPhrase($index, dataService.searchPhraseRequest[$index])" autocomplete="off">
+        <input type="search" name="searchPhrase" id="inputSearchPhrase" ng-class="{'form-control' : true,  'alert-warning' : dataConfigurator.searchResults[$index].length , 'alert-success' : !dataConfigurator.searchResults[$index].length}" placeholder="Search phrase to add" value="" required="required" title="Search phrase" ng-model="dataConfigurator.searchPhraseRequest[$index]" ng-change="searchForPhrase($index, dataConfigurator.searchPhraseRequest[$index])" autocomplete="off">
     </div>
     
-    <table class="table table-striped table-hover" ng-if="dataService.searchResults[$index].length">
+    <table class="table table-striped table-hover" ng-if="dataConfigurator.searchResults[$index].length">
         <thead>
             <tr>
                 <th>Phrase</th>
@@ -40,7 +40,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="phrase_item in dataService.searchResults[$index]">
+            <tr ng-repeat="phrase_item in dataConfigurator.searchResults[$index]">
                 <td>{{phrase_item.phrase}}</td>
                 <td>{{phrase_item.language.name}}</td>
                 <td><div class="checkbox">
