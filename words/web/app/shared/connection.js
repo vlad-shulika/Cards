@@ -13,9 +13,9 @@ Connection.OBJECT_TYPES = {
     PHRASE : 1,
     CARD : 2,
     _urls : {
-        LANGUAGE : "assets/js/stubModels/languages.json",
-        PHRASE : "assets/js/stubModels/phrases.json",
-        CARD : "assets/js/stubModels/cards.json",
+        LANGUAGE : "languages.json",
+        PHRASE : "phrases.json",
+        CARD : "translations.json",
     }
 };
 
@@ -43,6 +43,7 @@ Connection.prototype.download = function(type, params, callback) {
     }
     
     var _url = Connection.OBJECT_TYPES._urls[_object_name];
+    _url = this._host + _url;
     
     this._download_data_by_url(_url, callback);
 };

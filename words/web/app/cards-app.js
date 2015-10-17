@@ -3,7 +3,8 @@ var cardsApp = angular.module("cardsApp", []); // Declaration of cardsApp module
 
 cardsApp.run(['$http', 'DataConfiguratorService', function($http, dcService){
     var connectionManager = new Connection();
-    connectionManager.setHost("http://localhost:8080/");
+    // connectionManager.setHost("assets/js/stubModels/");
+    connectionManager.setHost("http://127.0.0.1:8000/");
 
     connectionManager.download(Connection.OBJECT_TYPES.LANGUAGE, {}, function(error, data) {
         if (error === 0) {

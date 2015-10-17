@@ -1,14 +1,23 @@
-[
-    {
-        "id": 1,
-        "name": "Russian"
-    },
-    {
-        "id": 2,
-        "name": "English"
-    },
-    {
-        "id": 3,
-        "name": "Czech"
-    }
-]
+{
+    "count": 4,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "name": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+            "url": "http://127.0.0.1:8000/languages/2.json"
+        },
+        {
+            "name": "English",
+            "url": "http://127.0.0.1:8000/languages/3.json"
+        },
+        {
+            "name": "Czech",
+            "url": "http://127.0.0.1:8000/languages/4.json"
+        },
+        {
+            "name": "Detch",
+            "url": "http://127.0.0.1:8000/languages/5.json"
+        }
+    ]
+}

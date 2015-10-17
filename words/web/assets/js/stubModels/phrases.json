@@ -1,27 +1,22 @@
-[
-    {
-        "id": 1,
-        "language": 1,
-        "phrase": "Some phrase 1"
-    },
-    {
-        "id": 2,
-        "language": 2,
-        "phrase": "Some phrase 1"
-    },
-    {
-        "id": 3,
-        "language": 3,
-        "phrase": "Some phrase 1"
-    },
-    {
-        "id": 4,
-        "language": 1,
-        "phrase": "Some phrase 2"
-    },
-    {
-        "id": 5,
-        "language": 1,
-        "phrase": "Some phrase 3"
-    }
-]
+{
+    "count": 3,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "language": "http://127.0.0.1:8000/languages/3.json",
+            "phrase": "Dog",
+            "url": "http://127.0.0.1:8000/phrases/1.json"
+        },
+        {
+            "language": "http://127.0.0.1:8000/languages/2.json",
+            "phrase": "\u0421\u043e\u0431\u0430\u043a\u0430",
+            "url": "http://127.0.0.1:8000/phrases/2.json"
+        },
+        {
+            "language": "http://127.0.0.1:8000/languages/4.json",
+            "phrase": "Pes",
+            "url": "http://127.0.0.1:8000/phrases/3.json"
+        }
+    ]
+}
