@@ -11,7 +11,11 @@
     <script src="app/cards-app.js"></script>
     <script src="app/shared/data-configurator-service.js"></script>
     <script src="app/components/user-cabinet/user-cabinet-controller.js"></script>
+    <script src="app/components/user-cabinet/edit-card-controller.js"></script>
+    <script src="app/components/user-cabinet/language-controller.js"></script>
+    <script src="app/components/user-cabinet/phrase-controller.js"></script>
     <script src="app/shared/card/edit-card-directive.js"></script>
+    <script src="app/components/user-cabinet/new-card-controller.js"></script>
     <script src="app/shared/card/new-card-directive.js"></script>
     <link href="assets/libs/bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/libs/bootstrap-3.3.4-dist/css/bootstrap-theme.css" rel="stylesheet" />
@@ -43,11 +47,11 @@
                         <span class="label label-default" ng-class="warningLevel()"
                               ng-hide="incompleteCount() == 0">{{incompleteCount()}}</span></h1>
                 </div>
-                <div class="panel">
+                <div class="panel" ng-controller="LanguageController as ctrl">
                     <div class="input-group">
-                        <input class="form-control" ng-model="cabinet_ctrl.languageName"/>
+                        <input class="form-control" ng-model="languageToAdd"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-default" ng-click="addNewLanguageItem(languageName)">Add</button>
+                            <button class="btn btn-default" ng-click="ctrl.addNewLanguageItem(languageToAdd)">Add</button>
                         </span>
                     </div>
                     <table class="table table-striped">
@@ -57,7 +61,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in cabinet_ctrl.userModel.languages">
+                            <tr ng-repeat="item in ctrl.languages">
                                 <td>{{item.name}}</td>
                             </tr>
                         </tbody>
@@ -68,17 +72,17 @@
                 <div class="page-header">
                   <h1>{{ cabinet_ctrl.dataConfigurator.userName }}'s <small>configured phrases</small></h1>
                 </div>
-                <div class="panel panel-default">
+                <div class="panel panel-default" ng-controller="PhraseController as ctrl">
                     <div class="panel-body">
                        <div class="input-group">
                            <input type="text" class="form-control" id="exampleInputAmount" placeholder="Phrase" ng-model="phrase">
 
-                            <select class="form-control" ng-model="languageModel" ng-options="item.name for item in cabinet_ctrl.userModel.languages">
+                            <select class="form-control" ng-model="languageModel" ng-options="item.name for item in ctrl.languages">
                                 <option value="">--Chose language--</option>
                            </select>
                            
                            
-                           <button type="button" class="btn btn-default" ng-click="cabinte_ctrl.addNewPhraseItem(phrase, languageModel)">Add new phrase</button>
+                           <button type="button" class="btn btn-default" ng-click="ctrl.addNewPhraseItem(phrase, languageModel)">Add new phrase</button>
                        
                        </div>
                        <table class="table table-striped">
@@ -89,7 +93,7 @@
                                </tr>
                            </thead>
                            <tbody>
-                               <tr ng-repeat="item in cabinet_ctrl.userModel.phrases">
+                               <tr ng-repeat="item in ctrl.phrases">
                                    <td>{{item.phrase}}</td>
                                    <td>{{item.language.name}}</td>
                                </tr>
@@ -99,15 +103,13 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab-2">
+                    <div ng-if="!newCardMode">
+                        <div create-new-card></div>
+                    <div>
                 <div class="row">
                     <div class="col-sm-4" ng-repeat="item in cabinet_ctrl.userModel.cards">
                         <div ca-edit-card></div>
                     </div>
-                    <div ng-if="!newCardMode">
-                        <div class="col-sm-4">
-                            <div create-new-card></div>
-                        </div>
-                    <div>
                 </div>
             </div>
         </div>

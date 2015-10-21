@@ -1,5 +1,4 @@
 function DataConfigurator () {
-    this._generateTime = new Date().getTime() / 1000;
     this.loadedData = {
         languages : null,
         phrases : null,
@@ -11,9 +10,7 @@ function DataConfigurator () {
         cards : [],
         completeData : false
     };
-    this.searchResults = [];
     this.userName = 'Andrii';
-    this.searchPhraseRequest = [];
     this.connectionManager = null;
     this._observers = {};
 };

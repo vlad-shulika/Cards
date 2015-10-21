@@ -1,9 +1,8 @@
 function Card() {
+    this.phrases = [];
 
 }
 
-// input params 
-// {"id" : 1, "phrases" : [{"phrase_id": 1}, {"phrase_id" : 3}]}
 Card.prototype.configure = function(raw_data, phrases) {
     this.id = raw_data.url;
     this.phrases = [];

@@ -1,9 +1,5 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="NewCardController as ctrl">
     <div class="panel-heading">
-        <h3 class="panel-title">Card #{{$index + 1}}</h3>
+            <input class="btn-success btn-block" type="button" name="create_btn" value="New" ng-click="ctrl.newCard()"/>
     </div>
-    <div class="panel-body">
-    </div>
-    
-    
 </div>
