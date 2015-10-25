@@ -15,6 +15,21 @@ function DataConfigurator () {
     this._observers = {};
 };
 
+DataConfigurator.prototype._cleanTemporaryData = function() {
+    this.loadedData.languages = null;
+    this.loadedData.cards = null;
+    this.loadedData.phrases = null;
+};
+
+DataConfigurator.prototype.createNewCard = function() {
+    var _newCard = new Card();
+    this.parsedData.cards.push(_newCard);
+};
+
+DataConfigurator.prototype.updateCard = function(card) {
+    // FIXME: send data to server using ConnectionManager
+};
+
 DataConfigurator.prototype.setConnectionManager = function(connectionManager) {
     this.connectionManager = connectionManager;
 };
@@ -75,6 +90,7 @@ DataConfigurator.prototype.downloadCallback = function(dataType, rawData) {
         this.parsedData.phrases = this._parsePhrases(this.loadedData.phrases, this.parsedData.languages);
         this.parsedData.cards = this._parseCards(this.loadedData.cards, this.parsedData.phrases);
         this.parsedData.completeData = true;
+        this._cleanTemporaryData();
         this.notifyObservers();
     }
 };

@@ -13,10 +13,5 @@ UserCabinetController.prototype.updateScope = function() {
     this.scope.$apply();
 };
 
-UserCabinetController.prototype.addNewPhraseItem = function(phrase, languageModel) {
-    last_index = this.userModel.phrases.length;
-    this.userModel.phrases.push({id : last_index + 1, phrase : phrase, language : languageModel});
-};
-
 angular.module("cardsApp").controller("UserCabinetController", ['$scope', 'DataConfiguratorService', UserCabinetController]);
 

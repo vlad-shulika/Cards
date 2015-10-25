@@ -3,8 +3,7 @@ function NewCardController(dataConfiguratorService) {
 }
 
 NewCardController.prototype.newCard = function () {
-    var _newCard = new Card();
-    this.dataService.parsedData.cards.push(_newCard);
+    this.dataService.createNewCard();
 };
 
 angular.module("cardsApp").controller('NewCardController', ['DataConfiguratorService', NewCardController]);

@@ -1,4 +1,5 @@
 function EditCardController(dataConfiguratorService) {
+    this.dataConfigurator = dataConfiguratorService;
     this.parsedData = dataConfiguratorService.parsedData;
     this.searchResults = null;
     this.card = null;
@@ -24,7 +25,18 @@ EditCardController.prototype.searchForPhrase = function(phraseToSearch) {
     else {
         this.searchResults = null;
     }
-}
+};
+
+EditCardController.prototype.removePhraseFromCard = function(phrase) {
+    this.card.removePhraseFromCard(phrase);
+    this.dataConfigurator.updateCard(this.card);
+};
+
+EditCardController.prototype.addPhraseToCard = function(phraseItem) {
+    this.card.addPhraseToCard(phraseItem);
+    this.dataConfigurator.updateCard(this.card);
+    this.removeFromSearchResults(phraseItem)
+};
 
 EditCardController.prototype.removeFromSearchResults = function(phrase){
     this.card.removePhraseFromCardById(this.searchResults, phrase.id);

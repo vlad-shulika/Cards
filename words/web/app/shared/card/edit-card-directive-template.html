@@ -9,7 +9,7 @@
                <tr>
                    <th>Phrase</th>
                    <th>Langauge</th>
-                   <th>Remove</th>
+                   <th>Action</th>
                </tr>
            </thead>
            <tbody>
@@ -17,11 +17,7 @@
                    <td>{{phrase.phrase}}</td>
                    <td>{{phrase.language.name}}</td>
                    <td>
-                       <div class="checkbox">
-                           <label>
-                               <input type="checkbox" value="" ng-model="removeFromCard" ng-change="ctrl.card.removePhraseFromCard(phrase)">
-                           </label>
-                       </div>
+                        <input type="button" class="btn-warning btn-block" ng-click="ctrl.removePhraseFromCard(phrase)" value="Remove"/>
                     </td>
                </tr>
            </tbody>
@@ -37,18 +33,16 @@
             <tr>
                 <th>Phrase</th>
                 <th>Language</th>
-                <th>Add</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="phrase_item in ctrl.searchResults">
                 <td>{{phrase_item.phrase}}</td>
                 <td>{{phrase_item.language.name}}</td>
-                <td><div class="checkbox">
-                    <label>
-                        <input type="checkbox" ng-model="addToCard" ng-change="ctrl.card.addPhraseToCard(phrase_item); ctrl.removeFromSearchResults(phrase_item)">
-                    </label>
-                </div></td>
+                <td>
+                        <input type="button" class="btn-info btn-block" ng-click="ctrl.addPhraseToCard(phrase_item)" value="Add"/>
+                </td>
             </tr>
         </tbody>
     </table>
