@@ -4,6 +4,7 @@ from django.utils.encoding import python_2_unicode_compatible
 import operator
 
 
+@python_2_unicode_compatible
 class Language(models.Model):
     name = models.CharField(max_length=100)
 
@@ -11,21 +12,23 @@ class Language(models.Model):
         return "%s" % self.name
 
 
+@python_2_unicode_compatible
 class Phrase(models.Model):
 
     language = models.ForeignKey(Language)
     phrase = models.CharField(max_length=200)
 
     def __str__(self):
-        return "Phrase: %s, Language: %s |" % (self.phrase, self.language.name)
+        return "Phrase: %s, Language: %s" % (self.phrase, self.language)
 
 
+@python_2_unicode_compatible
 class TranslateCard(models.Model):
 
     translations = models.ManyToManyField(Phrase)
 
     def __str__(self):
-        return "Card <<%s>>\n" % (list(self.translations.all()))
+        return "Card <<%d>>" % (len(list(self.translations.all())))
 
     @staticmethod
     def find_all_translation_by_language(phrase, language):
