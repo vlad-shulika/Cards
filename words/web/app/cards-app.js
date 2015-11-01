@@ -15,7 +15,7 @@ angular.module("cardsApp").filter("checkedItems", function() {
         angular.forEach(items, function(item){
             if (item.done == false || showComplete == true) {
                 resultArray.push(item);
-            };
+            }
         });
         return resultArray;
     }

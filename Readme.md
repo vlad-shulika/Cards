@@ -7,7 +7,7 @@ How to run project
 * virtual environment;
 * packages:
   * django;
-  * django-rest-framework;
+  * djangorestframework
   * django-cors-headers;
 
 ### How to run tests
