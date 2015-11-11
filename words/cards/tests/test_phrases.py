@@ -35,15 +35,17 @@ class TestPhrases(unittest.TestCase):
             r = requests.post(TestPhrases.server_address, json=TestPhrases.payload, headers=TestPhrases.headers)
             array_urs.append(r.json()["url"])
 
-        def get_all_phrases(dict_phrases, i, server_address):
+        def get_all_phrases(i, server_address):
+            dict_phrases = {}
             r = requests.get(server_address)
             resp_data = r.json()
             dict_phrases["page" + str(i)] = resp_data["results"]
             if resp_data["next"] != None:
-                get_all_phrases(dict_phrases, i+1, resp_data["next"])
+                temp_dict, _ = get_all_phrases(i+1, resp_data["next"])
+                dict_phrases.update(temp_dict)
             return dict_phrases, resp_data["count"]
 
-        dict_phrases, count = get_all_phrases({}, 1, TestPhrases.server_address)
+        dict_phrases, count = get_all_phrases(1, TestPhrases.server_address)
         number_phrases = 0
         for key in dict_phrases:
             number_phrases += len(dict_phrases[key])
