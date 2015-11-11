@@ -10,10 +10,33 @@ function DataConfigurator () {
         cards : [],
         completeData : false
     };
-    this.searchResults = [];
     this.userName = 'Andrii';
-    this.searchPhraseRequest = [];
-}
+    this.connectionManager = null;
+    this._observers = {};
+};
+
+DataConfigurator.prototype._cleanTemporaryData = function() {
+    this.loadedData.languages = null;
+    this.loadedData.cards = null;
+    this.loadedData.phrases = null;
+};
+
+DataConfigurator.prototype.createNewCard = function() {
+    var _newCard = new Card();
+    this.parsedData.cards.push(_newCard);
+};
+
+DataConfigurator.prototype.updateCard = function(card) {
+    // FIXME: send data to server using ConnectionManager
+};
+
+DataConfigurator.prototype.setConnectionManager = function(connectionManager) {
+    this.connectionManager = connectionManager;
+};
+
+DataConfigurator.prototype.registerObserver = function(name, callback) {
+    this._observers[name] = callback;
+};
 
 DataConfigurator.prototype._parseLanguages = function(rawData) {
     _configuredLanguages = [];
@@ -67,12 +90,45 @@ DataConfigurator.prototype.downloadCallback = function(dataType, rawData) {
         this.parsedData.phrases = this._parsePhrases(this.loadedData.phrases, this.parsedData.languages);
         this.parsedData.cards = this._parseCards(this.loadedData.cards, this.parsedData.phrases);
         this.parsedData.completeData = true;
+        this._cleanTemporaryData();
+        this.notifyObservers();
     }
 };
 
-var cardsApp = angular.module("cardsApp");
-cardsApp.factory('DataConfiguratorService', function(){
-    var _dataConfigurator = new DataConfigurator();
+DataConfigurator.prototype.notifyObservers = function() {
+   for (var observer_key in this._observers) {
+       this._observers[observer_key]();
+   }
+};
 
-    return _dataConfigurator;
-});
+DataConfigurator.prototype.init = function() {
+    if (this.connectionManager == null) {
+        return;
+    }
+    
+    var boundDownloadCallbackLanguage = (function(error, data) {
+        if (error === 0) {
+            this.downloadCallback(0, data);
+        }
+    }).bind(this);
+
+    var boundDownloadCallbackPhrase = (function(error, data) {
+        if (error === 0) {
+            this.downloadCallback(1, data);
+        }
+    }).bind(this);
+
+    var boundDownloadCallbackCard = (function(error, data) {
+        if (error === 0) {
+            this.downloadCallback(2, data);
+        }
+    }).bind(this);
+
+    this.connectionManager.download(Connection.OBJECT_TYPES.LANGUAGE, {}, boundDownloadCallbackLanguage);
+
+    this.connectionManager.download(Connection.OBJECT_TYPES.PHRASE, {}, boundDownloadCallbackPhrase);
+
+    this.connectionManager.download(Connection.OBJECT_TYPES.CARD, {}, boundDownloadCallbackCard);
+}
+
+angular.module("cardsApp").service('DataConfiguratorService', DataConfigurator);

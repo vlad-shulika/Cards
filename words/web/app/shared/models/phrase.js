@@ -1,5 +1,7 @@
 function Phrase(){
-
+    this.id = null;
+    this.phrase = null;
+    this.language = null;
 }
 
 //{"id" : 1, "phrase" : "Some phrase 1", "language" : 1}

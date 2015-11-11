@@ -1,4 +1,6 @@
 function Language () {
+    this.id = null;
+    this.name = null;
 }
 
 Language.prototype.configure = function(raw_data) {

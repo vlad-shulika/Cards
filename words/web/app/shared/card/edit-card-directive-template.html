@@ -2,25 +2,22 @@
     <div class="panel-heading">
         <h3 class="panel-title">Card #{{$index + 1}}</h3>
     </div>
+    <div ng-controller="EditCardController as ctrl" ng-init="ctrl.setCardId($index);">
     <div class="panel-body">
        <table class="table table-hover">
            <thead>
                <tr>
                    <th>Phrase</th>
                    <th>Langauge</th>
-                   <th>Remove</th>
+                   <th>Action</th>
                </tr>
            </thead>
            <tbody>
-               <tr ng-repeat="phrase in item.phrases">
+               <tr ng-repeat="phrase in ctrl.card.phrases">
                    <td>{{phrase.phrase}}</td>
                    <td>{{phrase.language.name}}</td>
                    <td>
-                       <div class="checkbox">
-                           <label>
-                               <input type="checkbox" value="" ng-model="removeFromCard" ng-change="item.removePhraseFromCard(phrase)">
-                           </label>
-                       </div>
+                        <input type="button" class="btn-warning btn-block" ng-click="ctrl.removePhraseFromCard(phrase)" value="Remove"/>
                     </td>
                </tr>
            </tbody>
@@ -28,27 +25,26 @@
     </div>
     
     <div class="panel">
-        <input type="search" name="searchPhrase" id="inputSearchPhrase" ng-class="{'form-control' : true,  'alert-warning' : dataConfigurator.searchResults[$index].length , 'alert-success' : !dataConfigurator.searchResults[$index].length}" placeholder="Search phrase to add" value="" required="required" title="Search phrase" ng-model="dataConfigurator.searchPhraseRequest[$index]" ng-change="searchForPhrase($index, dataConfigurator.searchPhraseRequest[$index])" autocomplete="off">
+        <input type="search" name="searchPhrase" id="inputSearchPhrase" ng-class="{'form-control' : true,  'alert-warning' : ctrl.searchResults.length , 'alert-success' : !ctrl.searchResults.length}" placeholder="Search phrase to add" value="" required="required" title="Search phrase" ng-model="ctrl.searchPhraseRequest" ng-change="ctrl.searchForPhrase(ctrl.searchPhraseRequest)" autocomplete="off">
     </div>
     
-    <table class="table table-striped table-hover" ng-if="dataConfigurator.searchResults[$index].length">
+    <table class="table table-striped table-hover" ng-if="ctrl.searchResults.length">
         <thead>
             <tr>
                 <th>Phrase</th>
                 <th>Language</th>
-                <th>Add</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="phrase_item in dataConfigurator.searchResults[$index]">
+            <tr ng-repeat="phrase_item in ctrl.searchResults">
                 <td>{{phrase_item.phrase}}</td>
                 <td>{{phrase_item.language.name}}</td>
-                <td><div class="checkbox">
-                    <label>
-                        <input type="checkbox" ng-model="addToCard" ng-change="item.addPhraseToCard(phrase_item); removeFromSearchResults($index, phrase_item)">
-                    </label>
-                </div></td>
+                <td>
+                        <input type="button" class="btn-info btn-block" ng-click="ctrl.addPhraseToCard(phrase_item)" value="Add"/>
+                </td>
             </tr>
         </tbody>
     </table>
+    </div> 
 </div>

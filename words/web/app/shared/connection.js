@@ -1,9 +1,3 @@
-/*
-        connection = new Connection();
-        connection.setHost("http://localhost:8001");
-        connection.connect();
- */
-
 function Connection() {
     this._host = null;
 };
