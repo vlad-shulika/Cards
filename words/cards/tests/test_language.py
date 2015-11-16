@@ -11,7 +11,7 @@ class TestLanguages(unittest.TestCase):
         self.assertEqual(r.status_code, 201)
         requests.delete(r.json()["url"])
 
-    def test_get_anguage_by_url(self):
+    def test_get_language_by_url(self):
         r = requests.post(TestLanguages.server_address, json=TestLanguages.payload, headers=TestLanguages.headers)
         url = r.json()["url"]
         r = requests.get(url)

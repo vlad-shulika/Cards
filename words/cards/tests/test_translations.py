@@ -72,3 +72,21 @@ class TestTranslations(unittest.TestCase):
 
         r = requests.get("http://127.0.0.1:8000/phrases?phrase_id=" + self.ids_phrases[2] + "&language_id="+self.ids_languages[1])
         self.assertListEqual(list_dict_translations, r.json()["results"])
+
+    def test_get_translation_by_url(self):
+        payload = {"translations": ["http://127.0.0.1:8000/phrases/"+self.ids_phrases[2],"http://127.0.0.1:8000/phrases/"+self.ids_phrases[0]]}
+        url = self.create_object("translations", payload)
+        r = requests.get("http://127.0.0.1:8000/translations/" + url)
+        resp_data = r.json()
+        self.assertIn(payload["translations"][0], resp_data["translations"])
+        self.assertIn(payload["translations"][1], resp_data["translations"])
+        self.assertEqual("http://127.0.0.1:8000/translations/" + url, resp_data["url"])
+        requests.delete("http://127.0.0.1:8000/translations/" + url)
+
+    def test_put_translation(self):
+        payload = {"translations": ["http://127.0.0.1:8000/phrases/"+self.ids_phrases[2],"http://127.0.0.1:8000/phrases/"+self.ids_phrases[0]]}
+        url = self.create_object("translations", payload)
+        requests.put("http://127.0.0.1:8000/translations/"+url, {"translations": ["http://127.0.0.1:8000/phrases/"+self.ids_phrases[1]]})
+        r = requests.get("http://127.0.0.1:8000/translations/"+url)
+        self.assertIn("http://127.0.0.1:8000/phrases/"+self.ids_phrases[1], r.json()["translations"])
+        requests.delete("http://127.0.0.1:8000/translations/" + url)
