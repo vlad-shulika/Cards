@@ -55,8 +55,6 @@ class TestPhrases(unittest.TestCase):
             requests.delete(url)
 
     def test_pharase_with_max_len(self):
-        #for i in range(353, 420):
-        #    requests.delete(TestPhrases.server_address + "/" + str(i))
         payload = {"phrase": "Dog"*70, "language": "http://127.0.0.1:8000/languages/1"}
         r = requests.post(TestPhrases.server_address, json=payload, headers=TestPhrases.headers)
         self.assertEqual(400, r.status_code)

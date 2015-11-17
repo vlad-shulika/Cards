@@ -54,8 +54,6 @@ class TestLanguages(unittest.TestCase):
             requests.delete(url)
 
     def test_language_with_max_len(self):
-        #for i in range(353, 420):
-        #    requests.delete(TestLanguages.server_address + "/" + str(i))
         payload = {"name": "english"*30}
         r = requests.post(TestLanguages.server_address, json=payload, headers=TestLanguages.headers)
         self.assertEqual(400, r.status_code)

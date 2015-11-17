@@ -9,6 +9,7 @@ How to run project
   * django;
   * djangorestframework
   * django-cors-headers;
+  * requests
 
 ### How to run tests
 

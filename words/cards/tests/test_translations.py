@@ -33,12 +33,12 @@ class TestTranslations(unittest.TestCase):
         self.urls_cards.append(self.create_object("translations", payload))
 
     def tearDown(self):
-        for id_language in self.ids_languages:
-            requests.delete("http://127.0.0.1:8000/languages/" + id_language)
-        for id_phrase in self.ids_phrases:
-            requests.delete("http://127.0.0.1:8000/phrases/" + id_phrase)
         for id_translation in self.urls_cards:
             requests.delete("http://127.0.0.1:8000/translations/" + id_translation)
+        for id_phrase in self.ids_phrases:
+            requests.delete("http://127.0.0.1:8000/phrases/" + id_phrase)
+        for id_language in self.ids_languages:
+            requests.delete("http://127.0.0.1:8000/languages/" + id_language)
 
     def test_get_translations_for_phrase(self):
         url_phrase = "http://127.0.0.1:8000/phrases" + "/" + self.ids_phrases[2]
