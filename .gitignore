@@ -5,3 +5,4 @@ env/
 .ropeproject/
 words/web/js/rest.json
 *.swp
+node_modules/
