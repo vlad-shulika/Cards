@@ -6,7 +6,7 @@ module.exports = function(app) {
         swaggerVersion: '1.0',
         swaggerURL: '/swagger',
         swaggerJSON: '/api-docs.json',
-        swaggerUI: './public/swagger/',
+        swaggerUI: './static/swagger/',
         basePath: 'http://localhost:3000',
         apis: ['./controllers/apiController.yml'],
         middleware: function(req, res){}
