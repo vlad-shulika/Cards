@@ -16,11 +16,13 @@ class PhraseViewSet(viewsets.ModelViewSet):
         if 'phrase_id' not in request.query_params or 'language_id' not in request.query_params:
             return super(PhraseViewSet, self).list(request, *args, **kwargs)
 
-        _pharse_id = request.query_params['phrase_id']
+        _phrase_id = request.query_params['phrase_id']
+        _phrase_id = _phrase_id[0] if type(_phrase_id) is list else _phrase_id
         _language_id = request.query_params['language_id']
+        _language_id = _language_id[0] if type(_language_id) is list else _language_id
 
         try:
-            _phrase_obj = Phrase.objects.get(id=_pharse_id)
+            _phrase_obj = Phrase.objects.get(id=_phrase_id)
             _language_obj = Language.objects.get(id=_language_id)
             _cards = TranslateCard.find_all_translation_by_language(_phrase_obj, _language_obj)
         except:
