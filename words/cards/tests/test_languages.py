@@ -1,15 +1,14 @@
 import requests
 import unittest
+from cards.tests.common import Common
 
 class TestLanguages(unittest.TestCase):
-    headers = {'Content-Type': 'application/json'}
-    server_address = "http://127.0.0.1:8000/languages"
     payload = {"name": "english"}
+    _common = Common()
 
     def test_create_language(self):
-        r = requests.post(TestLanguages.server_address, json=TestLanguages.payload, headers=TestLanguages.headers)
-        self.assertEqual(r.status_code, 201)
-        requests.delete(r.json()["url"])
+        _id = self._common.create_object("languages", self.payload)
+        self._common.delete_object("languages", _id)
 
     def test_get_language_by_url(self):
         r = requests.post(TestLanguages.server_address, json=TestLanguages.payload, headers=TestLanguages.headers)

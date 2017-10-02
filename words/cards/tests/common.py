@@ -10,16 +10,17 @@ class Common(object):
             raise Exception('Type "{0}" is not supported'.format(type))
 
     def create_object(self, type, payload, check_status = True):
+        self._check_type(type)
+        r = requests.post(Common.server_address + "/" + type, payload, Common.headers)
+
+        if not check_status:
+            return {'status_code': r.status_code}
+
         class CheckForStatus(unittest.TestCase):
             pass
 
-        self._check_type(type)
-        r = requests.post(Common.server_address + "/" + type, payload, Common.headers)
-        if check_status:
-            _check_for_status = CheckForStatus()
-            _check_for_status.assertEqual(r.status_code, 201)
-        else:
-            return {'status_code': r.status_code}
+        _check_for_status = CheckForStatus()
+        _check_for_status.assertEqual(r.status_code, 201)
 
         response = r.json()
         url = response["url"]
