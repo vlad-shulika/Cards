@@ -7,31 +7,31 @@ class TestLanguages(unittest.TestCase):
     _common = Common()
 
     def test_create_language(self):
-        _id = self._common.create_object("languages", self.payload)
-        self._common.delete_object("languages", _id)
+        _response = self._common.create_object("languages", self.payload)
+        self._common.delete_object("languages", _response['id'])
 
     def test_get_language_by_url(self):
-        r = requests.post(TestLanguages.server_address, json=TestLanguages.payload, headers=TestLanguages.headers)
-        url = r.json()["url"]
+        _response = self._common.create_object("languages", self.payload)
+        url = _response['response']["url"]
         r = requests.get(url)
         resp_data = r.json()
         self.assertEqual(url, resp_data["url"])
-        self.assertEqual(TestLanguages.payload["name"], resp_data["name"])
-        requests.delete(url)
+        self.assertEqual(self.payload["name"], resp_data["name"])
+        self._common.delete_object("languages", _response['id'])
 
     def test_put_language(self):
-        r = requests.post(TestLanguages.server_address, json=TestLanguages.payload, headers=TestLanguages.headers)
-        url = r.json()["url"]
+        _response = self._common.create_object("languages", self.payload)
+        url = _response['response']["url"]
         requests.put(url, {"name": "Test"})
         r = requests.get(url)
         self.assertEqual(r.json()["name"], "Test")
-        requests.delete(url)
+        self._common.delete_object("languages", _response['id'])
 
     def test_get_all_languages(self):
-        array_urs = []
+        array_urls = []
         for i in range(0, 11):
-            r = requests.post(TestLanguages.server_address, json=TestLanguages.payload, headers=TestLanguages.headers)
-            array_urs.append(r.json()["url"])
+            _response = self._common.create_object("languages", self.payload)
+            array_urls.append(_response['response']["url"])
 
         def get_all_languages(i, server_address):
             dict_languages = {}
@@ -43,16 +43,16 @@ class TestLanguages(unittest.TestCase):
                 dict_languages.update(temp_dict)
             return dict_languages, resp_data["count"]
 
-        dict_languages, count = get_all_languages(1, TestLanguages.server_address)
+        dict_languages, count = get_all_languages(1, self._common.get_url_by_type('languages'))
         number_languages = 0
         for key in dict_languages:
             number_languages += len(dict_languages[key])
         self.assertEqual(number_languages, count)
 
-        for url in array_urs:
+        for url in array_urls:
             requests.delete(url)
 
     def test_language_with_max_len(self):
-        payload = {"name": "english"*30}
-        r = requests.post(TestLanguages.server_address, json=payload, headers=TestLanguages.headers)
-        self.assertEqual(400, r.status_code)
+        payload = {"name": "english"*500}
+        _response = self._common.create_object("languages", payload, False)
+        self.assertEqual(400, _response['status_code'])
