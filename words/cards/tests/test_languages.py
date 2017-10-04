@@ -3,12 +3,16 @@ import unittest
 from cards.tests.common import Common
 
 class TestLanguages(unittest.TestCase):
-    payload = {"name": "english"}
-    _common = Common()
+
+    def setUp(self):
+        self._common = Common()
+        self.payload = {"name": "english"}
+
+    def tearDown(self):
+        del self._common
 
     def test_create_language(self):
         _response = self._common.create_object("languages", self.payload)
-        self._common.delete_object("languages", _response['id'])
 
     def test_get_language_by_url(self):
         _response = self._common.create_object("languages", self.payload)
@@ -17,7 +21,6 @@ class TestLanguages(unittest.TestCase):
         resp_data = r.json()
         self.assertEqual(url, resp_data["url"])
         self.assertEqual(self.payload["name"], resp_data["name"])
-        self._common.delete_object("languages", _response['id'])
 
     def test_put_language(self):
         _response = self._common.create_object("languages", self.payload)
@@ -25,7 +28,6 @@ class TestLanguages(unittest.TestCase):
         requests.put(url, {"name": "Test"})
         r = requests.get(url)
         self.assertEqual(r.json()["name"], "Test")
-        self._common.delete_object("languages", _response['id'])
 
     def test_get_all_languages(self):
         array_urls = []
@@ -48,9 +50,6 @@ class TestLanguages(unittest.TestCase):
         for key in dict_languages:
             number_languages += len(dict_languages[key])
         self.assertEqual(number_languages, count)
-
-        for url in array_urls:
-            requests.delete(url)
 
     def test_language_with_max_len(self):
         payload = {"name": "english"*500}

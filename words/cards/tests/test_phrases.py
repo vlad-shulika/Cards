@@ -3,19 +3,17 @@ import unittest
 from cards.tests.common import Common
 
 class TestPhrases(unittest.TestCase):
-    payload = {"phrase": "Dog", "language": "http://127.0.0.1:8000/languages/1"}
-    _common = Common()
 
     def setUp(self):
+        self._common = Common()
         self._language_id = self._common.create_object("languages", {"name": "русский"})["id"]
 
     def tearDown(self):
-        self._common.delete_object("languages", self._language_id)
+        del self._common
 
     def test_create_phrase(self):
         _payload = {"phrase": "Dog", "language": self._common.get_url_by_type_and_id("languages", self._language_id)}
-        _id = self._common.create_object("phrases", _payload)['id']
-        self._common.delete_object("phrases", _id)
+        self._common.create_object("phrases", _payload)
 
     def test_get_phrase_by_url(self):
         _payload = {"phrase": "Dog", "language": self._common.get_url_by_type_and_id("languages", self._language_id)}
@@ -26,7 +24,6 @@ class TestPhrases(unittest.TestCase):
         self.assertEqual(url, resp_data["url"])
         self.assertEqual(_payload["phrase"], resp_data["phrase"])
         self.assertEqual(_payload["language"], resp_data["language"])
-        requests.delete(url)
 
     def test_put_phrase(self):
         _payload = {"phrase": "Dog", "language": self._common.get_url_by_type_and_id("languages", self._language_id)}
@@ -35,7 +32,6 @@ class TestPhrases(unittest.TestCase):
         requests.put(url, {"phrase": "Test", "language": self._common.get_url_by_type_and_id("languages", self._language_id)})
         r = requests.get(url)
         self.assertEqual(r.json()["phrase"], "Test")
-        requests.delete(url)
 
     def test_get_all_phrases(self):
         _payload = {"phrase": "Dog", "language": self._common.get_url_by_type_and_id("languages", self._language_id)}
@@ -59,9 +55,6 @@ class TestPhrases(unittest.TestCase):
         for key in dict_phrases:
             number_phrases += len(dict_phrases[key])
         self.assertEqual(number_phrases, count)
-
-        for url in array_urls:
-            requests.delete(url)
 
     def test_phrase_with_max_len(self):
         _payload = {"phrase": "Dog"*170, "language": self._common.get_url_by_type_and_id("languages", self._language_id)}
