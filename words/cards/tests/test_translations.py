@@ -1,48 +1,46 @@
 # coding=utf-8
 import requests
 import unittest
+from cards.tests.common import Common
+
 
 class TestTranslations(unittest.TestCase):
-    headers = {'Content-Type': 'application/json'}
-    server_address = "http://127.0.0.1:8000"
-
-    def create_object(self, type, payload):
-        r = requests.post(TestTranslations.server_address + "/" + type, payload, TestTranslations.headers)
-        self.assertEqual(r.status_code, 201)
-        url = r.json()["url"]
-        return url[url.rfind("/")+1:]
-
-    def test_create_object(self):
-        ids = self.create_object("languages", {"name": "english"})
-        self.assertNotEqual(None, ids)
-        self.assertNotEqual("", ids)
-        self.assertGreater(int(ids), 0)
 
     def setUp(self):
+        self._common = Common()
         self.ids_languages = []
-        self.ids_languages.append(self.create_object("languages", {"name": "english"}))
-        self.ids_languages.append(self.create_object("languages", {"name": "русский"}))
+        self.ids_languages.append(self._common.create_object("languages", {"name": "english"})["id"])
+        self.ids_languages.append(self._common.create_object("languages", {"name": "русский"})["id"])
         self.ids_phrases = []
-        self.ids_phrases.append(self.create_object("phrases", {"phrase": "Lock", "language": "http://127.0.0.1:8000/languages/"+self.ids_languages[0]}))
-        self.ids_phrases.append(self.create_object("phrases", {"phrase": "Castle", "language": "http://127.0.0.1:8000/languages/"+self.ids_languages[0]}))
-        self.ids_phrases.append(self.create_object("phrases", {"phrase": "Замок", "language": "http://127.0.0.1:8000/languages/"+self.ids_languages[1]}))
+
+        def create_phrase_object(phrase, language_id):
+            return self._common.create_object("phrases", {"phrase": phrase, "language": self._common.get_url_by_type_and_id("languages", self.ids_languages[language_id])})["id"]
+
+        self.ids_phrases.append(create_phrase_object("Lock", 0))
+        self.ids_phrases.append(create_phrase_object("Castle", 0))
+        self.ids_phrases.append(create_phrase_object("Замок", 1))
+
         self.urls_cards = []
-        payload = {"translations": ["http://127.0.0.1:8000/phrases/"+self.ids_phrases[2],"http://127.0.0.1:8000/phrases/"+self.ids_phrases[0]]}
-        self.urls_cards.append(self.create_object("translations", payload))
-        payload = {"translations": ["http://127.0.0.1:8000/phrases/"+self.ids_phrases[2],"http://127.0.0.1:8000/phrases/"+self.ids_phrases[1]]}
-        self.urls_cards.append(self.create_object("translations", payload))
+
+        def create_translation_object(phrase_id1, phrase_id2):
+            payload = {
+                "translations": [
+                    self._common.get_url_by_type_and_id("phrases", self.ids_phrases[phrase_id1]),
+                    self._common.get_url_by_type_and_id("phrases", self.ids_phrases[phrase_id2])
+                ]
+            }
+
+            return self._common.create_object("translations", payload)["id"]
+
+        self.urls_cards.append(create_translation_object(2, 0))
+        self.urls_cards.append(create_translation_object(2, 1))
 
     def tearDown(self):
-        for id_translation in self.urls_cards:
-            requests.delete("http://127.0.0.1:8000/translations/" + id_translation)
-        for id_phrase in self.ids_phrases:
-            requests.delete("http://127.0.0.1:8000/phrases/" + id_phrase)
-        for id_language in self.ids_languages:
-            requests.delete("http://127.0.0.1:8000/languages/" + id_language)
+        del self._common
 
     def test_get_translations_for_phrase(self):
-        url_phrase = "http://127.0.0.1:8000/phrases" + "/" + self.ids_phrases[2]
-        url_language = "http://127.0.0.1:8000/languages" + "/" + self.ids_languages[1]
+        url_phrase = self._common.get_url_by_type_and_id("phrases", self.ids_phrases[2])
+        url_language = self._common.get_url_by_type_and_id("languages", self.ids_languages[1])
 
         def get_all_cards(server_address):
             list_cards = []
@@ -54,7 +52,7 @@ class TestTranslations(unittest.TestCase):
                 list_cards.extend(temp_list)
             return list_cards
 
-        list_cards = get_all_cards(TestTranslations.server_address+"/translations")
+        list_cards = get_all_cards(self._common.get_url_by_type("translations"))
 
         list_urlsphrases_that_connect_urlphrase = []
         for card in list_cards:
@@ -70,23 +68,31 @@ class TestTranslations(unittest.TestCase):
             if r.json()["language"] == url_language:
                 list_dict_translations.append(r.json())
 
-        r = requests.get("http://127.0.0.1:8000/phrases?phrase_id=" + self.ids_phrases[2] + "&language_id="+self.ids_languages[1])
+        r = requests.get(self._common.get_url_by_type("phrases") + "?phrase_id=" + self.ids_phrases[2] + "&language_id="+self.ids_languages[1])
         self.assertListEqual(list_dict_translations, r.json()["results"])
 
     def test_get_translation_by_url(self):
-        payload = {"translations": ["http://127.0.0.1:8000/phrases/"+self.ids_phrases[2],"http://127.0.0.1:8000/phrases/"+self.ids_phrases[0]]}
-        url = self.create_object("translations", payload)
-        r = requests.get("http://127.0.0.1:8000/translations/" + url)
+        payload = {
+            "translations": [
+                self._common.get_url_by_type_and_id("phrases", self.ids_phrases[2]),
+                self._common.get_url_by_type_and_id("phrases", self.ids_phrases[0])
+            ]
+        }
+        _id = self._common.create_object("translations", payload)["id"]
+        r = requests.get("http://127.0.0.1:8000/translations/" + _id)
         resp_data = r.json()
         self.assertIn(payload["translations"][0], resp_data["translations"])
         self.assertIn(payload["translations"][1], resp_data["translations"])
-        self.assertEqual("http://127.0.0.1:8000/translations/" + url, resp_data["url"])
-        requests.delete("http://127.0.0.1:8000/translations/" + url)
+        self.assertEqual(self._common.get_url_by_type_and_id("translations", _id), resp_data["url"])
 
     def test_put_translation(self):
-        payload = {"translations": ["http://127.0.0.1:8000/phrases/"+self.ids_phrases[2],"http://127.0.0.1:8000/phrases/"+self.ids_phrases[0]]}
-        url = self.create_object("translations", payload)
-        requests.put("http://127.0.0.1:8000/translations/"+url, {"translations": ["http://127.0.0.1:8000/phrases/"+self.ids_phrases[1]]})
-        r = requests.get("http://127.0.0.1:8000/translations/"+url)
-        self.assertIn("http://127.0.0.1:8000/phrases/"+self.ids_phrases[1], r.json()["translations"])
-        requests.delete("http://127.0.0.1:8000/translations/" + url)
+        payload = {
+            "translations": [
+                self._common.get_url_by_type_and_id("phrases", self.ids_phrases[2]),
+                self._common.get_url_by_type_and_id("phrases", self.ids_phrases[0])
+            ]
+        }
+        _id = self._common.create_object("translations", payload)["id"]
+        requests.put(self._common.get_url_by_type_and_id("translations", _id), {"translations": self._common.get_url_by_type_and_id("phrases", self.ids_phrases[1])})
+        r = requests.get(self._common.get_url_by_type_and_id("translations", _id))
+        self.assertIn(self._common.get_url_by_type_and_id("phrases", self.ids_phrases[1]), r.json()["translations"])
