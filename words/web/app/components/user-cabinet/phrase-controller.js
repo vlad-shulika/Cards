@@ -1,6 +1,6 @@
-function PhraseController(dataConfiguratorService) {
-    this.phrases = dataConfiguratorService.parsedData.phrases;
-    this.languages = dataConfiguratorService.parsedData.languages; 
+function PhraseController(DataConfigurationService) {
+    this.phrases = DataConfigurationService.parsedData.phrases;
+    this.languages = DataConfigurationService.parsedData.languages; 
 };
 
 PhraseController.prototype.addNewPhraseItem = function(phrase, languageModel) {
@@ -8,4 +8,4 @@ PhraseController.prototype.addNewPhraseItem = function(phrase, languageModel) {
     this.phrases.push({id : last_index + 1, phrase : phrase, language : languageModel});
 };
 
-angular.module("cardsApp").controller("PhraseController", ['DataConfiguratorService', PhraseController]);
+angular.module("cardsApp").controller("PhraseController", ['DataConfigurationService', PhraseController]);

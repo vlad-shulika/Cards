@@ -1,6 +1,6 @@
-function EditCardController(dataConfiguratorService) {
-    this.dataConfigurator = dataConfiguratorService;
-    this.parsedData = dataConfiguratorService.parsedData;
+function EditCardController(DataConfigurationService) {
+    this.DataConfiguration = DataConfigurationService;
+    this.parsedData = DataConfigurationService.parsedData;
     this.searchResults = null;
     this.card = null;
     this.searchPhraseRequest = null;
@@ -29,12 +29,12 @@ EditCardController.prototype.searchForPhrase = function(phraseToSearch) {
 
 EditCardController.prototype.removePhraseFromCard = function(phrase) {
     this.card.removePhraseFromCard(phrase);
-    this.dataConfigurator.updateCard(this.card);
+    this.DataConfiguration.updateCard(this.card);
 };
 
 EditCardController.prototype.addPhraseToCard = function(phraseItem) {
     this.card.addPhraseToCard(phraseItem);
-    this.dataConfigurator.updateCard(this.card);
+    this.DataConfiguration.updateCard(this.card);
     this.removeFromSearchResults(phraseItem)
 };
 
@@ -45,4 +45,4 @@ EditCardController.prototype.removeFromSearchResults = function(phrase){
     }
 }
 
-angular.module("cardsApp").controller('EditCardController', ['DataConfiguratorService', EditCardController]);
+angular.module("cardsApp").controller('EditCardController', ['DataConfigurationService', EditCardController]);

@@ -1,8 +1,8 @@
-describe("DataConfigurator", function() {
-    var dataConfigurator;
+describe("DataConfiguration", function() {
+    var DataConfiguration;
 
     beforeEach(function() {
-        dataConfigurator = new DataConfigurator();
+        DataConfiguration = new DataConfiguration();
         languages = {
             "count": 4,
             "next": null,
@@ -68,38 +68,38 @@ describe("DataConfigurator", function() {
     });
 
     it("should be able to parse languages", function(){
-        results = dataConfigurator._parseLanguages(languages.results);
+        results = DataConfiguration._parseLanguages(languages.results);
         expect(results.length).toEqual(languages.count);
     });
 
     it("should be able to parse phrases", function(){
         
-        languageResults = dataConfigurator._parseLanguages(languages.results);
+        languageResults = DataConfiguration._parseLanguages(languages.results);
         expect(languageResults.length).toEqual(languages.count);
 
-        results = dataConfigurator._parsePhrases(phrases.results, languageResults);
+        results = DataConfiguration._parsePhrases(phrases.results, languageResults);
         expect(results.length).toEqual(phrases.count);
     });
 
     it("should be able to parse cards", function(){
-        languageResults = dataConfigurator._parseLanguages(languages.results);
+        languageResults = DataConfiguration._parseLanguages(languages.results);
         expect(languageResults.length).toEqual(languages.count);
 
-        phraseResults = dataConfigurator._parsePhrases(phrases.results, languageResults);
+        phraseResults = DataConfiguration._parsePhrases(phrases.results, languageResults);
         expect(phraseResults.length).toEqual(phrases.count);
 
-        cardsResults = dataConfigurator._parseCards(cards.results, phraseResults);
+        cardsResults = DataConfiguration._parseCards(cards.results, phraseResults);
         expect(cardsResults.length).toEqual(cards.count);
     });
 
     it("should be able do whole flow by calling callback function", function(){
-        dataConfigurator.downloadCallback(0, languages);
-        dataConfigurator.downloadCallback(1, phrases);
-        dataConfigurator.downloadCallback(2, cards);
+        DataConfiguration.downloadCallback(0, languages);
+        DataConfiguration.downloadCallback(1, phrases);
+        DataConfiguration.downloadCallback(2, cards);
 
-        expect(dataConfigurator.parsedData.completeData).toEqual(true);
-        expect(dataConfigurator.parsedData.languages.length).toEqual(languages.count);
-        expect(dataConfigurator.parsedData.phrases.length).toEqual(phrases.count);
-        expect(dataConfigurator.parsedData.cards.length).toEqual(cards.count);
+        expect(DataConfiguration.parsedData.completeData).toEqual(true);
+        expect(DataConfiguration.parsedData.languages.length).toEqual(languages.count);
+        expect(DataConfiguration.parsedData.phrases.length).toEqual(phrases.count);
+        expect(DataConfiguration.parsedData.cards.length).toEqual(cards.count);
     });
 });

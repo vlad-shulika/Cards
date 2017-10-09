@@ -25,7 +25,7 @@ Connection.prototype.setHost = function(host) {
 
 Connection.prototype.connect = function() {
     if (this._host === null) {
-        throw ({'Not initialised': 'data'});
+        throw ({'Not initialized': 'data'});
     }
 };
 

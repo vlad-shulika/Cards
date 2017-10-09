@@ -1,7 +1,7 @@
 
 angular.module("cardsApp", []); // Declaration of cardsApp module
 
-angular.module("cardsApp").run(['DataConfiguratorService', function(dcService){
+angular.module("cardsApp").run(['DataConfigurationService', function(dcService){
     var connectionManager = new Connection();
 
     // connectionManager.setHost("assets/js/stubModels/");

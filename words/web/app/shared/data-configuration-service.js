@@ -1,4 +1,4 @@
-function DataConfigurator () {
+function DataConfigurationService () {
     this.loadedData = {
         languages : null,
         phrases : null,
@@ -15,30 +15,30 @@ function DataConfigurator () {
     this._observers = {};
 };
 
-DataConfigurator.prototype._cleanTemporaryData = function() {
+DataConfigurationService.prototype._cleanTemporaryData = function() {
     this.loadedData.languages = null;
     this.loadedData.cards = null;
     this.loadedData.phrases = null;
 };
 
-DataConfigurator.prototype.createNewCard = function() {
+DataConfigurationService.prototype.createNewCard = function() {
     var _newCard = new Card();
     this.parsedData.cards.push(_newCard);
 };
 
-DataConfigurator.prototype.updateCard = function(card) {
+DataConfigurationService.prototype.updateCard = function(card) {
     // FIXME: send data to server using ConnectionManager
 };
 
-DataConfigurator.prototype.setConnectionManager = function(connectionManager) {
+DataConfigurationService.prototype.setConnectionManager = function(connectionManager) {
     this.connectionManager = connectionManager;
 };
 
-DataConfigurator.prototype.registerObserver = function(name, callback) {
+DataConfigurationService.prototype.registerObserver = function(name, callback) {
     this._observers[name] = callback;
 };
 
-DataConfigurator.prototype._parseLanguages = function(rawData) {
+DataConfigurationService.prototype._parseLanguages = function(rawData) {
     _configuredLanguages = [];
 
     rawData.forEach(function(languageObject){
@@ -50,7 +50,7 @@ DataConfigurator.prototype._parseLanguages = function(rawData) {
     return _configuredLanguages;
 };
 
-DataConfigurator.prototype._parsePhrases = function(rawData, parsedLanguages) {
+DataConfigurationService.prototype._parsePhrases = function(rawData, parsedLanguages) {
     _phrasesWithLanguage = [];
 
     rawData.forEach(function(phrase){
@@ -62,7 +62,7 @@ DataConfigurator.prototype._parsePhrases = function(rawData, parsedLanguages) {
     return _phrasesWithLanguage;
 };
 
-DataConfigurator.prototype._parseCards = function(rawData, parsedPhrases) {
+DataConfigurationService.prototype._parseCards = function(rawData, parsedPhrases) {
     _parsedCards = [];
 
     rawData.forEach(function(item){
@@ -74,7 +74,7 @@ DataConfigurator.prototype._parseCards = function(rawData, parsedPhrases) {
     return _parsedCards;
 };
 
-DataConfigurator.prototype.downloadCallback = function(dataType, rawData) {
+DataConfigurationService.prototype.downloadCallback = function(dataType, rawData) {
     if (dataType === 0) { // 0 - languages
         this.loadedData.languages = rawData.results;
     } else if (dataType === 1) { // 1 - phrases
@@ -95,13 +95,13 @@ DataConfigurator.prototype.downloadCallback = function(dataType, rawData) {
     }
 };
 
-DataConfigurator.prototype.notifyObservers = function() {
+DataConfigurationService.prototype.notifyObservers = function() {
    for (var observer_key in this._observers) {
        this._observers[observer_key]();
    }
 };
 
-DataConfigurator.prototype.init = function() {
+DataConfigurationService.prototype.init = function() {
     if (this.connectionManager == null) {
         return;
     }
@@ -131,4 +131,4 @@ DataConfigurator.prototype.init = function() {
     this.connectionManager.download(Connection.OBJECT_TYPES.CARD, {}, boundDownloadCallbackCard);
 }
 
-angular.module("cardsApp").service('DataConfiguratorService', DataConfigurator);
+angular.module("cardsApp").service('DataConfigurationService', DataConfigurationService);

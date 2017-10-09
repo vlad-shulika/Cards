@@ -9,7 +9,7 @@
     <script src="app/shared/models/language.js"></script>
     <script src="app/shared/connection.js"></script>
     <script src="app/cards-app.js"></script>
-    <script src="app/shared/data-configurator-service.js"></script>
+    <script src="app/shared/data-configuration-service.js"></script>
     <script src="app/components/user-cabinet/user-cabinet-controller.js"></script>
     <script src="app/components/user-cabinet/edit-card-controller.js"></script>
     <script src="app/components/user-cabinet/language-controller.js"></script>
@@ -43,7 +43,7 @@
             <div role="tabpanel" class="tab-pane active" id="home-tab">
 
                 <div class="page-header">
-                    <h1>{{cabinet_ctrl.dataConfigurator.userName}}'s configured languages
+                    <h1>{{cabinet_ctrl.DataConfiguration.userName}}'s configured languages
                         <span class="label label-default" ng-class="warningLevel()"
                               ng-hide="incompleteCount() == 0">{{incompleteCount()}}</span></h1>
                 </div>
@@ -70,7 +70,7 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="tab-1">
                 <div class="page-header">
-                  <h1>{{ cabinet_ctrl.dataConfigurator.userName }}'s <small>configured phrases</small></h1>
+                  <h1>{{ cabinet_ctrl.DataConfiguration.userName }}'s <small>configured phrases</small></h1>
                 </div>
                 <div class="panel panel-default" ng-controller="PhraseController as ctrl">
                     <div class="panel-body">
