@@ -14,4 +14,3 @@ UserCabinetController.prototype.updateScope = function() {
 };
 
 angular.module("cardsApp").controller("UserCabinetController", ['$scope', 'DataConfigurationService', UserCabinetController]);
-
