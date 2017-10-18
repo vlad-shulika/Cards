@@ -109,7 +109,7 @@ STATIC_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '../static
 
 REST_FRAMEWORK = {
         'PAGE_SIZE': 10,
-        'DEFAULT_PAGINATION_CLASS': None
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 }
 
 # Set to False and add CORS_ORIGIN_WHITELIST = ('some ulr')
