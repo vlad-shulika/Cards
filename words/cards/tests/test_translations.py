@@ -41,7 +41,7 @@ class TestTranslations(unittest.TestCase):
     def test_get_translations_for_phrase(self):
         url_phrase = self._common.get_url_by_type_and_id("phrases", self.ids_phrases[2])
         url_language = self._common.get_url_by_type_and_id("languages", self.ids_languages[1])
-        """
+        
         def get_all_cards(server_address):
             list_cards = []
             r = requests.get(server_address)
@@ -53,10 +53,6 @@ class TestTranslations(unittest.TestCase):
             return list_cards
         
         list_cards = get_all_cards(self._common.get_url_by_type("translations"))
-        """
-
-        r = requests.get(self._common.get_url_by_type("translations"))
-        list_cards = r.json()
 
         list_urlsphrases_that_connect_urlphrase = []
         for card in list_cards:
@@ -73,7 +69,7 @@ class TestTranslations(unittest.TestCase):
                 list_dict_translations.append(r.json())
 
         r = requests.get(self._common.get_url_by_type("phrases") + "?phrase_id=" + self.ids_phrases[2] + "&language_id="+self.ids_languages[1])
-        self.assertListEqual(list_dict_translations, r.json())
+        self.assertListEqual(list_dict_translations, r.json()['results'])
 
     def test_get_translation_by_url(self):
         payload = {
